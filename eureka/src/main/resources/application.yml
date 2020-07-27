@@ -8,8 +8,7 @@ eureka:
       # 将自身注册到注册中心
       defaultZone: http://localhost:8761/eureka
     # 不把当前应用显示在注册中心
-    # 不把当前应用显示在注册中心
-#    register-with-eureka: false
+    register-with-eureka: false
   server:
     # 关闭自我保护
     enable-self-preservation: false
