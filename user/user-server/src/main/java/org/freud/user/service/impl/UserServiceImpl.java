@@ -152,4 +152,9 @@ public class UserServiceImpl implements UserService {
         }
         return userVO;
     }
+
+    @Override
+    public UserVO getUserVOInfo(Integer userId) {
+        return userDao.getMapper().findUserVOById(userId);
+    }
 }

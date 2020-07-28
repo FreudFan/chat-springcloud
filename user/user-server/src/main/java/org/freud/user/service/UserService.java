@@ -71,8 +71,17 @@ public interface UserService {
 
     /***
      * 查询陌生人基本信息
+     * 并添加好友标识
      * @param userId
      * @return
      */
     UserVO getUserVOById(Integer userId);
+
+    /***
+     * 查询用户基本信息
+     * 用于服务间调用
+     * @param userId
+     * @return
+     */
+    UserVO getUserVOInfo(Integer userId);
 }
