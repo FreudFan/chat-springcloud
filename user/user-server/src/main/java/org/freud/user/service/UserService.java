@@ -71,11 +71,11 @@ public interface UserService {
 
     /***
      * 查询陌生人基本信息
-     * 并添加好友标识
+     * 如果是好友 添加好友备注
      * @param userId
      * @return
      */
-    UserVO getUserVOById(Integer userId);
+    UserVO getUserVOInfoWithFriendFlag(Integer userId, Integer currentId);
 
     /***
      * 查询用户基本信息

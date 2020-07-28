@@ -142,11 +142,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserVO getUserVOById(Integer userId) {
+    public UserVO getUserVOInfoWithFriendFlag(Integer userId, Integer currentId) {
         UserVO userVO = userDao.getMapper().findUserVOById(userId);
-        Integer currentId = RequestContent.getCurrentUser().getId();
-        if (friendDao.getRepository().findByUserIdAndFriendId(currentId, userId) != null) {
+        Friend friend = friendDao.getRepository().findByUserIdAndFriendId(currentId, userId);
+        if (friend != null) {
             userVO.setIsFriend(true);
+            userVO.setNickname(friend.getNickname());
         } else {
             userVO.setIsFriend(false);
         }

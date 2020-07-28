@@ -99,7 +99,7 @@ public class FriendServiceImpl implements FriendService {
     public RequestFriendsStatusEnum requestFriend(Integer userId) {
         UserVO currentUser = RequestContent.getCurrentUser();
         Optional<User> userOptional = userDao.getRepository().findById(userId);
-        if (!userOptional.isPresent()) {
+        if (userOptional.isEmpty()) {
             return RequestFriendsStatusEnum.USER_NOT_EXIST;
         }
         User acceptUser = userOptional.get();
@@ -142,7 +142,7 @@ public class FriendServiceImpl implements FriendService {
         friendRequest.setAcceptUserId(acceptUserId);
         friendRequestDao.getRepository().save(friendRequest);
         // 向目标用户发送好友申请
-        UserVO userVO = userService.getUserVOById(acceptUserId);
+        UserVO userVO = userService.getUserVOInfoWithFriendFlag(acceptUserId, currentId);
 
         //TODO 暂时
 //        DataContent dataContent = new DataContent();

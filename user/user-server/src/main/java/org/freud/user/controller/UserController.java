@@ -34,7 +34,8 @@ public class UserController {
      */
     @GetMapping("/queryUser/{userId}")
     public UserVO getUserVOById(@PathVariable("userId") Integer userId) {
-        return userService.getUserVOById(userId);
+        Integer currentId = RequestContent.getCurrentUser().getId();
+        return userService.getUserVOInfoWithFriendFlag(userId, currentId);
     }
 
     /***
@@ -43,8 +44,7 @@ public class UserController {
      */
     @GetMapping("/friend")
     public List<MyFriendsVO> myFriends() {
-        List<MyFriendsVO> friendsVOS = userService.queryMyFriends(RequestContent.getCurrentUser().getId());
-        return friendsVOS;
+        return userService.queryMyFriends(RequestContent.getCurrentUser().getId());
     }
 
     /***
