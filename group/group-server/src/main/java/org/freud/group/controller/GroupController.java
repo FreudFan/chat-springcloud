@@ -6,6 +6,7 @@ import org.freud.group.enums.OperatorGroupRequestTypeEnum;
 import org.freud.group.enums.RequestGroupStatusEnum;
 import org.freud.group.exception.FormException;
 import org.freud.group.exception.GroupException;
+import org.freud.group.interceptor.RequestContent;
 import org.freud.group.service.GroupAttachmentService;
 import org.freud.group.service.GroupNoticeService;
 import org.freud.group.service.GroupService;
@@ -13,6 +14,7 @@ import org.freud.group.common.AcceptGroupVO;
 import org.freud.group.common.GroupAttachmentVO;
 import org.freud.group.common.GroupRequestVO;
 import org.freud.group.common.GroupVO;
+import org.freud.user.common.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -65,10 +67,11 @@ public class GroupController {
     public boolean processGroupRequest(@RequestBody AcceptGroupVO acceptGroupVO) {
         int operationType = acceptGroupVO.getOperationType();
         if (groupService.getGroupInfo(acceptGroupVO.getSendGroupId()) == null) {
-            throw new FormException("没有该群号");
-        } else if (!userDao.getRepository().findById(acceptGroupVO.getSendUserId()).isPresent()) {
-            throw new FormException("没有该用户");
-        }
+            throw new FormException("没有该群号");}
+            //TODO 暂时
+//        } else if (!userDao.getRepository().findById(acceptGroupVO.getSendUserId()).isPresent()) {
+//            throw new FormException("没有该用户");
+//        }
         if (operationType == OperatorGroupRequestTypeEnum.PASS.value) {
             groupService.agreeGroupRequest(acceptGroupVO.getSendGroupId(), acceptGroupVO.getSendUserId());
             return true;
@@ -145,35 +148,38 @@ public class GroupController {
      * @param file
      * @return
      */
-    @PostMapping("/uploadGroupAttachment/{groupId}")
-    public ResponseEntity<Integer> upLoadGroupAttachment(@RequestParam("file") MultipartFile file,
-                                                         @PathVariable("groupId") Integer groupId) {
-        if (file == null) {
-            throw new GroupException("上传文件失败，文件为空 !");
-        }
-        int groupAttachmentId = groupAttachmentService.uploadGroupAttachment(groupId, file);
-        return new ResponseEntity<>(groupAttachmentId, HttpStatus.OK);
-    }
+    //TODO 暂时
+//    @PostMapping("/uploadGroupAttachment/{groupId}")
+//    public ResponseEntity<Integer> upLoadGroupAttachment(@RequestParam("file") MultipartFile file,
+//                                                         @PathVariable("groupId") Integer groupId) {
+//        if (file == null) {
+//            throw new GroupException("上传文件失败，文件为空 !");
+//        }
+//        int groupAttachmentId = groupAttachmentService.uploadGroupAttachment(groupId, file);
+//        return new ResponseEntity<>(groupAttachmentId, HttpStatus.OK);
+//    }
 
     /***
      * 展示群文件列表
      * @param groupId
      * @return
      */
-    @GetMapping("/showGroupAttachmentList/{groupId}")
-    public List<GroupAttachmentVO> showGroupAttachments(@PathVariable("groupId") Integer groupId) {
-        return groupAttachmentService.showGroupAttachmentList(groupId);
-    }
+    //TODO 暂时
+//    @GetMapping("/showGroupAttachmentList/{groupId}")
+//    public List<GroupAttachmentVO> showGroupAttachments(@PathVariable("groupId") Integer groupId) {
+//        return groupAttachmentService.showGroupAttachmentList(groupId);
+//    }
 
     /***
      * 删除群文件
      * @param groupId，fileId
      * @return
      */
-    @PostMapping("/deleteGroupAttachment/{groupId}/{fileId}")
-    public boolean showGroupAttachments(@PathVariable("groupId") Integer groupId, @PathVariable("fileId") String fileId) {
-        return groupAttachmentService.deleteGroupAttachment(groupId, fileId);
-    }
+    //TODO 暂时
+//    @PostMapping("/deleteGroupAttachment/{groupId}/{fileId}")
+//    public boolean showGroupAttachments(@PathVariable("groupId") Integer groupId, @PathVariable("fileId") String fileId) {
+//        return groupAttachmentService.deleteGroupAttachment(groupId, fileId);
+//    }
 
     /***
      * 群主设置管理员权限
@@ -210,10 +216,11 @@ public class GroupController {
      * @param groupId,userId
      * @return
      */
-    @GetMapping("/showGroupUserInfo/{groupId}/{userId}")
-    public UserVO showGroupUserInfo(@PathVariable("groupId") Integer groupId, @PathVariable("userId") Integer userId) {
-        return groupService.showGroupUserInfo(groupId, userId);
-    }
+    //TODO 暂时
+//    @GetMapping("/showGroupUserInfo/{groupId}/{userId}")
+//    public UserVO showGroupUserInfo(@PathVariable("groupId") Integer groupId, @PathVariable("userId") Integer userId) {
+//        return groupService.showGroupUserInfo(groupId, userId);
+//    }
 
     /***
      * 增加群公告（只有群主和管理员能添加）
@@ -269,7 +276,6 @@ public class GroupController {
      * 查询好友通知
      * @return
      */
-    @Override
     @GetMapping("/searchGroupRequest/{groupId}")
     public List<GroupRequestVO> searchGroupRequest(@PathVariable("groupId") Integer groupId) {
         return groupService.listGroupRequest(groupId);

@@ -1,7 +1,8 @@
 package org.freud.group.dao.mapper;
 
+import org.freud.group.common.GroupVO;
 import org.freud.group.entity.Group;
-import org.freud.group.vo.GroupVO;
+import org.freud.user.common.UserVO;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

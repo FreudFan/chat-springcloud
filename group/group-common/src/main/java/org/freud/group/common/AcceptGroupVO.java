@@ -2,8 +2,10 @@ package org.freud.group.common;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class AcceptGroupVO {
+public class AcceptGroupVO implements Serializable {
     /***
      * 发送申请的群id
      */

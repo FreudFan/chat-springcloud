@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.freud.group.dao.GroupUserDao;
 import org.freud.group.dao.NoticeDao;
 import org.freud.group.entity.Notice;
+import org.freud.group.interceptor.RequestContent;
 import org.freud.group.service.GroupNoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,8 +20,9 @@ public class GroupNoticeServiceImpl implements GroupNoticeService {
     private GroupUserDao groupuserDao;
     @Autowired
     private NoticeDao noticeDao;
-    @Autowired
-    private ChannelUtils channelUtils;
+    //TODO 暂时
+//    @Autowired
+//    private ChannelUtils channelUtils;
 
     @Override
     public boolean addNotice(Notice notice) {
@@ -34,7 +36,8 @@ public class GroupNoticeServiceImpl implements GroupNoticeService {
         groupNotice.setGroupId(notice.getGroupId());
         groupNotice.setOwnerId(currentId);
         notice = noticeDao.getRepository().save(groupNotice);
-        this.sendNotice(notice.getGroupId(), notice);
+        //TODO 暂时
+//        this.sendNotice(notice.getGroupId(), notice);
         return true;
     }
 
@@ -59,7 +62,8 @@ public class GroupNoticeServiceImpl implements GroupNoticeService {
         notice.setCreateTime(getNotice.getCreateTime());
         notice.setGroupId(getNotice.getGroupId());
         notice = noticeDao.getRepository().save(notice);
-        this.sendNotice(notice.getGroupId(), notice);
+        //TODO 暂时
+//        this.sendNotice(notice.getGroupId(), notice);
         return true;
     }
 
@@ -78,13 +82,14 @@ public class GroupNoticeServiceImpl implements GroupNoticeService {
      * @param groupId
      * @param notice
      */
-    private void sendNotice(Integer groupId, Notice notice) {
-        DataContent dataContent = new DataContent();
-        dataContent.setAction(MsgActionEnum.GROUP_NOTICE.type);
-        ChatMsg chatMsg = new ChatMsg();
-        chatMsg.setGroupId(groupId);
-        dataContent.setExtend(JacksonUtil.toJSON(notice));
-        int currentId = RequestContent.getCurrentUser().getId();
-        channelUtils.sendMessageToGroupUser(currentId, groupId, dataContent);
-    }
+    //TODO 暂时
+//    private void sendNotice(Integer groupId, Notice notice) {
+//        DataContent dataContent = new DataContent();
+//        dataContent.setAction(MsgActionEnum.GROUP_NOTICE.type);
+//        ChatMsg chatMsg = new ChatMsg();
+//        chatMsg.setGroupId(groupId);
+//        dataContent.setExtend(JacksonUtil.toJSON(notice));
+//        int currentId = RequestContent.getCurrentUser().getId();
+//        channelUtils.sendMessageToGroupUser(currentId, groupId, dataContent);
+//    }
 }

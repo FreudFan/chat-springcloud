@@ -3,7 +3,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- namespace表示命名空间 -->
-<mapper namespace="edu.sandau.chat.dao.mapper.GroupRequestMapper">
+<mapper namespace="org.freud.group.dao.mapper.GroupRequestMapper">
+
     <select id="queryGroupRequest" parameterType="java.lang.Integer"
             resultMap="groupRequestVOResultMap">
         select g.id as request_id, g.group_id, g.request_date_time, g.send_user_id,
@@ -22,6 +23,5 @@
         <result column="gender" property="userVo.gender"/>
         <result column="head_portrait" property="userVo.headPortrait"/>
     </resultMap>
-
 
 </mapper>

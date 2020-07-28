@@ -1,9 +1,11 @@
 package org.freud.group.service;
 
+import org.freud.group.common.GroupDTO;
+import org.freud.group.common.GroupRequestVO;
+import org.freud.group.common.GroupVO;
 import org.freud.group.entity.Group;
 import org.freud.group.enums.RequestGroupStatusEnum;
-import org.freud.group.vo.GroupRequestVO;
-import org.freud.group.vo.GroupVO;
+import org.freud.user.common.UserVO;
 
 import java.util.List;
 
@@ -123,7 +125,8 @@ public interface GroupService {
      * @param userId
      * @return
      */
-    UserVO showGroupUserInfo(Integer groupId, Integer userId);
+    //TODO 暂时
+//    UserVO showGroupUserInfo(Integer groupId, Integer userId);
 
     /***
      * 获取用户在群内昵称
@@ -148,4 +151,10 @@ public interface GroupService {
      */
     List<GroupRequestVO> listGroupRequest(Integer groupId);
 
+    /***
+     * 查询用户加入的群
+     * @param userId
+     * @return
+     */
+    List<GroupDTO>  queryUserGroups(Integer userId);
 }

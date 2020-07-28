@@ -23,10 +23,24 @@
     <properties>
         <java.version>11</java.version>
         <spring-cloud.version>Hoxton.SR6</spring-cloud.version>
+
+        <user-common.version>0.0.1-SNAPSHOT</user-common.version>
+        <group-common.version>0.0.1-SNAPSHOT</group-common.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.freud</groupId>
+                <artifactId>user-common</artifactId>
+                <version>${user-common.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.freud</groupId>
+                <artifactId>group-common</artifactId>
+                <version>${group-common.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
@@ -37,13 +51,13 @@
         </dependencies>
     </dependencyManagement>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
+<!--    <build>-->
+<!--        <plugins>-->
+<!--            <plugin>-->
+<!--                <groupId>org.springframework.boot</groupId>-->
+<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
+<!--            </plugin>-->
+<!--        </plugins>-->
+<!--    </build>-->
 
 </project>

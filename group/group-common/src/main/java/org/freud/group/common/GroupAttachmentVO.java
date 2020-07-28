@@ -1,9 +1,12 @@
 package org.freud.group.common;
 
 import lombok.Data;
+import org.freud.user.common.UserVO;
+
+import java.io.Serializable;
 
 @Data
-public class GroupAttachmentVO {
+public class GroupAttachmentVO implements Serializable {
     /*** 文件自身的id **/
     private String fileId;
     /*** 文件名 **/

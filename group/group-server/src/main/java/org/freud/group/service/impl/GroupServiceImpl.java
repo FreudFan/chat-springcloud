@@ -1,5 +1,8 @@
 package org.freud.group.service.impl;
 
+import org.freud.group.common.GroupDTO;
+import org.freud.group.common.GroupRequestVO;
+import org.freud.group.common.GroupVO;
 import org.freud.group.dao.GroupDao;
 import org.freud.group.dao.GroupRequestDao;
 import org.freud.group.dao.GroupUserDao;
@@ -9,8 +12,10 @@ import org.freud.group.entity.GroupUser;
 import org.freud.group.enums.GroupRoleEnum;
 import org.freud.group.enums.RequestGroupStatusEnum;
 import org.freud.group.exception.GroupException;
+import org.freud.group.interceptor.RequestContent;
 import org.freud.group.service.GroupService;
-import org.freud.group.vo.GroupRequestVO;
+import org.freud.user.common.UserVO;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -30,20 +35,23 @@ public class GroupServiceImpl implements GroupService {
 
     @Autowired
     private GroupDao groupDao;
-    @Autowired
-    private UserDao userDao;
+    //TODO 暂时
+//    @Autowired
+//    private UserDao userDao;
     @Autowired
     private GroupUserDao groupUserDao;
     @Autowired
     private GroupRequestDao groupRequestDao;
-    @Autowired
-    private ChannelUtils channelUtils;
-    @Autowired
-    private FriendDao friendDao;
+    //TODO 暂时
+//    @Autowired
+//    private ChannelUtils channelUtils;
+    //TODO 暂时
+//    @Autowired
+//    private FriendDao friendDao;
 
     @Override
     public Group createGroup(Group group) {
-        User currentUser = RequestContent.getCurrentUser();
+        UserVO currentUser = RequestContent.getCurrentUser();
         group.setMasterId(currentUser.getId());
         group.setFlag(0);
         group = groupDao.getRepository().save(group);
@@ -75,10 +83,11 @@ public class GroupServiceImpl implements GroupService {
         List<UserVO> userVOS = groupDao.getMapper().queryGroupUsers(groupId);
         List<Integer> userId = userVOS.stream().map(UserVO::getId).collect(Collectors.toList());
         // TODO:向群用户发送群解散通知
-        DataContent dataContent = new DataContent();
-        dataContent.setAction(MsgActionEnum.DISBAND_GROUP.type);
-        dataContent.setExtend(String.valueOf(groupId));
-        channelUtils.sendMessageToGroupUser(0, groupId, dataContent);
+        //TODO 暂时
+//        DataContent dataContent = new DataContent();
+//        dataContent.setAction(MsgActionEnum.DISBAND_GROUP.type);
+//        dataContent.setExtend(String.valueOf(groupId));
+//        channelUtils.sendMessageToGroupUser(0, groupId, dataContent);
     }
 
     @Override
@@ -155,24 +164,25 @@ public class GroupServiceImpl implements GroupService {
             return false;
     }
 
-    @Override
-    public UserVO showGroupUserInfo(Integer groupId, Integer userId) {
-        int currentId = RequestContent.getCurrentUser().getId();
-        User user = userDao.getRepository().findById(userId).get();
-        UserVO userVO = new UserVO();
-        Friend friend = friendDao.getRepository().findByUserIdAndFriendId(currentId, userId);
-        userVO.setName(user.getName());
-        userVO.setGender(user.getGender());
-        userVO.setHeadPortrait(user.getHeadPortrait());
-        userVO.setIsFriend(false);
-        userVO.setGroupId(groupId);
-        userVO.setId(userId);
-        if (friend != null) {
-            userVO.setIsFriend(true);
-            userVO.setNickname(friend.getNickname());
-        }
-        return userVO;
-    }
+    //TODO 暂时
+//    @Override
+//    public UserVO showGroupUserInfo(Integer groupId, Integer userId) {
+//        int currentId = RequestContent.getCurrentUser().getId();
+//        User user = userDao.getRepository().findById(userId).get();
+//        UserVO userVO = new UserVO();
+//        Friend friend = friendDao.getRepository().findByUserIdAndFriendId(currentId, userId);
+//        userVO.setName(user.getName());
+//        userVO.setGender(user.getGender());
+//        userVO.setHeadPortrait(user.getHeadPortrait());
+//        userVO.setIsFriend(false);
+//        userVO.setGroupId(groupId);
+//        userVO.setId(userId);
+//        if (friend != null) {
+//            userVO.setIsFriend(true);
+//            userVO.setNickname(friend.getNickname());
+//        }
+//        return userVO;
+//    }
 
     @Override
     public Group getGroupInfo(Integer groupId) {
@@ -198,7 +208,7 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public RequestGroupStatusEnum requestGroup(Integer groupId) {
-        User currentUser = RequestContent.getCurrentUser();
+        UserVO currentUser = RequestContent.getCurrentUser();
         Optional<Group> userOptional = groupDao.getRepository().findById(groupId);
         //判断该群号是否存在
         if (!userOptional.isPresent()) {
@@ -243,8 +253,9 @@ public class GroupServiceImpl implements GroupService {
         GroupUser groupUser = new GroupUser();
         groupUser.setGroupId(groupId);
         groupUser.setUserId(sendUserId);
-        //默认昵称是他的名字
-        groupUser.setNickname(userDao.getRepository().findById(sendUserId).get().getName());
+        //TODO 暂时
+//        //默认昵称是他的名字
+//        groupUser.setNickname(userDao.getRepository().findById(sendUserId).get().getName());
         //默认初始权限为群员
         groupUser.setRoleId(0);
         //添加至群列表
@@ -283,6 +294,18 @@ public class GroupServiceImpl implements GroupService {
         if (roleId == 0)
             throw new GroupException("您的权限不够");
         return groupRequestDao.getMapper().queryGroupRequest(groupId);
+    }
+
+    @Override
+    public List<GroupDTO> queryUserGroups(Integer userId) {
+        List<Group> groups = groupDao.getMapper().queryUserJoinGroup(userId);
+        List<GroupDTO> groupDTOList = new ArrayList<>(10);
+        for (Group group : groups) {
+            GroupDTO groupDTO = new GroupDTO();
+            BeanUtils.copyProperties(group, groupDTO);
+            groupDTOList.add(groupDTO);
+        }
+        return groupDTOList;
     }
 
     /***
