@@ -6,6 +6,7 @@ import org.freud.user.entity.FriendGroup;
 import org.freud.user.enums.OperatorFriendRequestTypeEnum;
 import org.freud.user.enums.RequestFriendsStatusEnum;
 import org.freud.user.exception.FormException;
+import org.freud.user.interceptor.RequestContent;
 import org.freud.user.service.FriendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

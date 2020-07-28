@@ -1,8 +1,10 @@
 package org.freud.user.controller;
 
+import org.freud.group.common.GroupDTO;
 import org.freud.user.common.MyFriendsVO;
 import org.freud.user.common.UserVO;
 import org.freud.user.entity.User;
+import org.freud.user.interceptor.RequestContent;
 import org.freud.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -70,7 +72,7 @@ public class UserController {
      * @return
      */
     @GetMapping("/group")
-    public List<Group> myGroups() {
+    public List<GroupDTO> myGroups() {
         return userService.queryMyGroups(RequestContent.getCurrentUser().getId());
     }
 

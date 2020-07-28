@@ -11,6 +11,7 @@ import org.freud.user.entity.FriendRequest;
 import org.freud.user.entity.User;
 import org.freud.user.enums.RequestFriendsStatusEnum;
 import org.freud.user.exception.FriendException;
+import org.freud.user.interceptor.RequestContent;
 import org.freud.user.service.FriendService;
 import org.freud.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,14 +34,15 @@ public class FriendServiceImpl implements FriendService {
     private FriendRequestDao friendRequestDao;
     @Autowired
     private UserDao userDao;
-    @Autowired
-    private ChannelUtils channelUtils;
+    //TODO 暂时
+//    @Autowired
+//    private ChannelUtils channelUtils;
     @Autowired
     private UserService userService;
 
     @Override
     public Integer agreeFriendRequest(Integer friendId) {
-        User currentUser = RequestContent.getCurrentUser();
+        UserVO currentUser = RequestContent.getCurrentUser();
         UserVO userVo = userDao.getMapper().findFriendById(currentUser.getId(), friendId);
         if (userVo != null) {
             throw new FriendException("该用户已经是你的好友啦~");
@@ -73,14 +75,15 @@ public class FriendServiceImpl implements FriendService {
         friendRequestDao.getRepository().deleteBySendUserIdAndAcceptUserId(friendId, currentUser.getId());
         friendRequestDao.getRepository().deleteBySendUserIdAndAcceptUserId(currentUser.getId(), friendId);
 
+        //TODO 暂时
         //通知申请人好友申请通过
-        DataContent dataContent = new DataContent();
-        dataContent.setAction(MsgActionEnum.PULL_FRIEND.type);
-        ChatMsg chatMsg = new ChatMsg();
-        chatMsg.setSenderId(currentUser.getId());
-        chatMsg.setReceiverId(friendId);
-        dataContent.setChatMsg(chatMsg);
-        channelUtils.sendMessageToUser(currentUser.getId(), friendId, dataContent);
+//        DataContent dataContent = new DataContent();
+//        dataContent.setAction(MsgActionEnum.PULL_FRIEND.type);
+//        ChatMsg chatMsg = new ChatMsg();
+//        chatMsg.setSenderId(currentUser.getId());
+//        chatMsg.setReceiverId(friendId);
+//        dataContent.setChatMsg(chatMsg);
+//        channelUtils.sendMessageToUser(currentUser.getId(), friendId, dataContent);
 
         return friendId;
     }
@@ -94,7 +97,7 @@ public class FriendServiceImpl implements FriendService {
 
     @Override
     public RequestFriendsStatusEnum requestFriend(Integer userId) {
-        User currentUser = RequestContent.getCurrentUser();
+        UserVO currentUser = RequestContent.getCurrentUser();
         Optional<User> userOptional = userDao.getRepository().findById(userId);
         if (!userOptional.isPresent()) {
             return RequestFriendsStatusEnum.USER_NOT_EXIST;
@@ -141,14 +144,15 @@ public class FriendServiceImpl implements FriendService {
         // 向目标用户发送好友申请
         UserVO userVO = userService.getUserVOById(acceptUserId);
 
-        DataContent dataContent = new DataContent();
-        dataContent.setAction(MsgActionEnum.REQUEST_FRIEND.type);
-        ChatMsg chatMsg = new ChatMsg();
-        chatMsg.setSenderId(currentId);
-        chatMsg.setReceiverId(acceptUserId);
-        dataContent.setChatMsg(chatMsg);
-        dataContent.setExtend(JacksonUtil.toJSON(userVO));
-        channelUtils.sendMessageToUser(currentId, acceptUserId, dataContent);
+        //TODO 暂时
+//        DataContent dataContent = new DataContent();
+//        dataContent.setAction(MsgActionEnum.REQUEST_FRIEND.type);
+//        ChatMsg chatMsg = new ChatMsg();
+//        chatMsg.setSenderId(currentId);
+//        chatMsg.setReceiverId(acceptUserId);
+//        dataContent.setChatMsg(chatMsg);
+//        dataContent.setExtend(JacksonUtil.toJSON(userVO));
+//        channelUtils.sendMessageToUser(currentId, acceptUserId, dataContent);
     }
 
     @Override

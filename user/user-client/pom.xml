@@ -24,13 +24,7 @@
 
         <dependency>
             <groupId>org.freud</groupId>
-            <artifactId>user-server</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.freud</groupId>
             <artifactId>user-common</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

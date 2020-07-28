@@ -2,8 +2,10 @@ package org.freud.user.common;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class AcceptFriendVO {
+public class AcceptFriendVO implements Serializable {
     /***
      * 发送申请的用户id
      */

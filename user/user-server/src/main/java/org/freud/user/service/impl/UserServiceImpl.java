@@ -1,6 +1,7 @@
 package org.freud.user.service.impl;
 
-import jdk.jshell.spi.ExecutionControl;
+import org.freud.group.client.GroupClient;
+import org.freud.group.common.GroupDTO;
 import org.freud.user.common.MyFriendsVO;
 import org.freud.user.common.UserVO;
 import org.freud.user.dao.FriendDao;
@@ -11,6 +12,7 @@ import org.freud.user.entity.FriendGroup;
 import org.freud.user.entity.User;
 import org.freud.user.enums.UserFormTypeEnum;
 import org.freud.user.exception.UserException;
+import org.freud.user.interceptor.RequestContent;
 import org.freud.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,14 +31,11 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private FriendDao friendDao;
     @Autowired
-    private GroupDao groupDao;
-    @Autowired
-    private GroupUserDao groupUserDao;
+    private GroupClient groupClient;
 
     @Override
     public User login(UserFormTypeEnum loginValue, String loginName, String password) {
-        User user = userDao.getMapper().login(loginValue.name, loginName, password);
-        return user;
+        return userDao.getMapper().login(loginValue.name, loginName, password);
     }
 
     @Override
@@ -138,8 +137,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Group> queryMyGroups(Integer userId) {
-        return groupDao.getMapper().queryUserJoinGroup(userId);
+    public List<GroupDTO> queryMyGroups(Integer userId) {
+        return groupClient.queryUserGroups(userId);
     }
 
     @Override

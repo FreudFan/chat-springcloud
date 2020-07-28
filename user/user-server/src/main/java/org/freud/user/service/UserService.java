@@ -1,5 +1,6 @@
 package org.freud.user.service;
 
+import org.freud.group.common.GroupDTO;
 import org.freud.user.common.MyFriendsVO;
 import org.freud.user.common.UserVO;
 import org.freud.user.entity.User;
@@ -66,7 +67,7 @@ public interface UserService {
      * @param userId
      * @return
      */
-    List<Group> queryMyGroups(Integer userId);
+    List<GroupDTO> queryMyGroups(Integer userId);
 
     /***
      * 查询陌生人基本信息

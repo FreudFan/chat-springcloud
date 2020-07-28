@@ -2,10 +2,11 @@ package org.freud.user.common;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Data
-public class MyFriendsVO {
+public class MyFriendsVO implements Serializable {
     /*** 分组id **/
     private Integer groupId;
     /*** 分组名称 **/
