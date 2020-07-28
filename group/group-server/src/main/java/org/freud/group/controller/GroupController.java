@@ -14,6 +14,7 @@ import org.freud.group.common.AcceptGroupVO;
 import org.freud.group.common.GroupAttachmentVO;
 import org.freud.group.common.GroupRequestVO;
 import org.freud.group.common.GroupVO;
+import org.freud.user.client.UserClient;
 import org.freud.user.common.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-@Component
+@RestController
+@RequestMapping("/group")
 public class GroupController {
     @Autowired
     private GroupService groupService;
@@ -32,6 +34,8 @@ public class GroupController {
     private GroupAttachmentService groupAttachmentService;
     @Autowired
     private GroupNoticeService groupNoticeService;
+    @Autowired
+    private UserClient userClient;
 
     /***
      * 创建用户群
@@ -67,11 +71,10 @@ public class GroupController {
     public boolean processGroupRequest(@RequestBody AcceptGroupVO acceptGroupVO) {
         int operationType = acceptGroupVO.getOperationType();
         if (groupService.getGroupInfo(acceptGroupVO.getSendGroupId()) == null) {
-            throw new FormException("没有该群号");}
-            //TODO 暂时
-//        } else if (!userDao.getRepository().findById(acceptGroupVO.getSendUserId()).isPresent()) {
-//            throw new FormException("没有该用户");
-//        }
+            throw new FormException("没有该群号");
+        } else if (userClient.getUserVOInfo(acceptGroupVO.getSendUserId()) == null) {
+            throw new FormException("没有该用户");
+        }
         if (operationType == OperatorGroupRequestTypeEnum.PASS.value) {
             groupService.agreeGroupRequest(acceptGroupVO.getSendGroupId(), acceptGroupVO.getSendUserId());
             return true;

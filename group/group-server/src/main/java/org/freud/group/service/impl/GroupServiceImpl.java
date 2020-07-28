@@ -11,9 +11,11 @@ import org.freud.group.entity.GroupRequest;
 import org.freud.group.entity.GroupUser;
 import org.freud.group.enums.GroupRoleEnum;
 import org.freud.group.enums.RequestGroupStatusEnum;
+import org.freud.group.exception.FormException;
 import org.freud.group.exception.GroupException;
 import org.freud.group.interceptor.RequestContent;
 import org.freud.group.service.GroupService;
+import org.freud.user.client.UserClient;
 import org.freud.user.common.UserVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +50,8 @@ public class GroupServiceImpl implements GroupService {
     //TODO 暂时
 //    @Autowired
 //    private FriendDao friendDao;
+    @Autowired
+    private UserClient userClient;
 
     @Override
     public Group createGroup(Group group) {
@@ -249,13 +253,16 @@ public class GroupServiceImpl implements GroupService {
     //同意用户入群申请
     @Override
     public boolean agreeGroupRequest(Integer groupId, Integer sendUserId) {
-        // Group group = groupDao.getRepository().findById(groupId).get();
+        if (groupUserDao.getRepository().findByGroupIdAndUserId(groupId, sendUserId) != null) {
+            throw new FormException("用户已经在群内啦~");
+        }
+
         GroupUser groupUser = new GroupUser();
         groupUser.setGroupId(groupId);
         groupUser.setUserId(sendUserId);
-        //TODO 暂时
 //        //默认昵称是他的名字
-//        groupUser.setNickname(userDao.getRepository().findById(sendUserId).get().getName());
+        String nickName = userClient.getUserVOInfo(sendUserId).getName();
+        groupUser.setNickname(nickName);
         //默认初始权限为群员
         groupUser.setRoleId(0);
         //添加至群列表

@@ -9,9 +9,9 @@ spring:
     url: jdbc:mysql://106.14.120.166:3400/chat?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=true
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
-      initial-size: 1
+      initial-size: 10
       max-active: 500
-      min-idle: 1
+      min-idle: 10
       max-wait: 60000
 
   jpa:

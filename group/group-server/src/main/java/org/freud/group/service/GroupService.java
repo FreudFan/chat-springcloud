@@ -157,4 +157,5 @@ public interface GroupService {
      * @return
      */
     List<GroupDTO>  queryUserGroups(Integer userId);
+
 }

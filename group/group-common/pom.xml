@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>org.freud</groupId>
-            <artifactId>user-common</artifactId>
+            <artifactId>user-client</artifactId>
         </dependency>
 
         <dependency>
