@@ -168,25 +168,13 @@ public class GroupServiceImpl implements GroupService {
             return false;
     }
 
-    //TODO 暂时
-//    @Override
-//    public UserVO showGroupUserInfo(Integer groupId, Integer userId) {
-//        int currentId = RequestContent.getCurrentUser().getId();
-//        User user = userDao.getRepository().findById(userId).get();
-//        UserVO userVO = new UserVO();
-//        Friend friend = friendDao.getRepository().findByUserIdAndFriendId(currentId, userId);
-//        userVO.setName(user.getName());
-//        userVO.setGender(user.getGender());
-//        userVO.setHeadPortrait(user.getHeadPortrait());
-//        userVO.setIsFriend(false);
-//        userVO.setGroupId(groupId);
-//        userVO.setId(userId);
-//        if (friend != null) {
-//            userVO.setIsFriend(true);
-//            userVO.setNickname(friend.getNickname());
-//        }
-//        return userVO;
-//    }
+    @Override
+    public UserVO showGroupUserInfo(Integer groupId, Integer userId) {
+        int currentId = RequestContent.getCurrentUser().getId();
+        UserVO userVO = userClient.getUserVOInfoWithFriendFlag(userId, currentId);
+        userVO.setGroupId(groupId);
+        return userVO;
+    }
 
     @Override
     public Group getGroupInfo(Integer groupId) {

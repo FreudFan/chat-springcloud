@@ -219,11 +219,10 @@ public class GroupController {
      * @param groupId,userId
      * @return
      */
-    //TODO 暂时
-//    @GetMapping("/showGroupUserInfo/{groupId}/{userId}")
-//    public UserVO showGroupUserInfo(@PathVariable("groupId") Integer groupId, @PathVariable("userId") Integer userId) {
-//        return groupService.showGroupUserInfo(groupId, userId);
-//    }
+    @GetMapping("/showGroupUserInfo/{groupId}/{userId}")
+    public UserVO showGroupUserInfo(@PathVariable("groupId") Integer groupId, @PathVariable("userId") Integer userId) {
+        return groupService.showGroupUserInfo(groupId, userId);
+    }
 
     /***
      * 增加群公告（只有群主和管理员能添加）

@@ -125,8 +125,7 @@ public interface GroupService {
      * @param userId
      * @return
      */
-    //TODO 暂时
-//    UserVO showGroupUserInfo(Integer groupId, Integer userId);
+    UserVO showGroupUserInfo(Integer groupId, Integer userId);
 
     /***
      * 获取用户在群内昵称
