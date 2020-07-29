@@ -3,6 +3,7 @@ package org.freud.file.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.freud.file.entity.Attachment;
 import org.freud.file.exception.AttachmentException;
+import org.freud.file.interceptor.RequestContent;
 import org.freud.file.service.AttachmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,7 +30,8 @@ public class FileController {
         if (file == null) {
             throw new AttachmentException("上传文件失败，文件为空 !");
         }
-        String attachmentId = attachmentService.saveAttachment(file);
+        Integer currentId = RequestContent.getCurrentUser().getId();
+        String attachmentId = attachmentService.saveAttachment(file, currentId);
         return new ResponseEntity<>(attachmentId, HttpStatus.OK);
     }
 

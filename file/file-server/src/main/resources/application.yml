@@ -41,6 +41,11 @@ spring:
     store-type: redis
     timeout: 300
 
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 2048MB
+
 eureka:
   client:
     service-url:
@@ -48,7 +53,7 @@ eureka:
 
 mybatis:
   mapper-locations: classpath*:/mapper/*.xml
-  type-aliases-package: org.freud.file.entity
+  type-aliases-package: org.freud.file.entity, org.freud.file.common
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true

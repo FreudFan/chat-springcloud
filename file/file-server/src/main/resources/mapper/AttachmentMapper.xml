@@ -8,7 +8,7 @@
         select * from attachment where id = #{id}
     </select>
 
-    <select id="getAttachmentInfoById" parameterType="String" resultType="Attachment">
+    <select id="getAttachmentInfoById" parameterType="String" resultType="AttachmentDTO">
         select id, content_size, create_time, file_type, name, owner_id, update_time from attachment where id = #{id}
     </select>
 

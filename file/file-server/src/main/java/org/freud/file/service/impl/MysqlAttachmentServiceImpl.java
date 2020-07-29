@@ -1,6 +1,7 @@
 package org.freud.file.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import org.freud.file.common.AttachmentDTO;
 import org.freud.file.dao.AttachmentDao;
 import org.freud.file.entity.Attachment;
 import org.freud.file.service.AttachmentService;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
@@ -19,7 +21,7 @@ public class MysqlAttachmentServiceImpl implements AttachmentService {
     private AttachmentDao dao;
 
     @Override
-    public String saveAttachment(MultipartFile file) {
+    public String saveAttachment(MultipartFile file, Integer ownerId) {
         Integer attachmentId = null;
         try {
             String originalName = file.getOriginalFilename();
@@ -31,8 +33,7 @@ public class MysqlAttachmentServiceImpl implements AttachmentService {
             attachment.setFileType(fileType);
             attachment.setContentSize(String.valueOf(file.getSize()));
             attachment.setContent(file.getBytes());
-            attachment.setOwnerId(1);
-//            attachment.setOwnerId(RequestContent.getCurrentUser().getId());
+            attachment.setOwnerId(ownerId);
             attachmentId = dao.getRepository().save(attachment).getId();
         } catch (Exception e) {
             log.error("附件保存失败！", e);
@@ -51,13 +52,16 @@ public class MysqlAttachmentServiceImpl implements AttachmentService {
     }
 
     @Override
-    public Attachment getAttachmentInfo(String id) {
+    public AttachmentDTO getAttachmentInfo(String id) {
         return dao.getMapper().getAttachmentInfoById(id);
     }
 
     @Override
     public void deleteAttachment(String id) {
-        dao.getRepository().deleteById(Integer.parseInt(id));
+        Optional<Attachment> optional = dao.getRepository().findById(Integer.parseInt(id));
+        if (optional.isPresent()) {
+            dao.getRepository().deleteById(Integer.parseInt(id));
+        }
     }
 
 }
