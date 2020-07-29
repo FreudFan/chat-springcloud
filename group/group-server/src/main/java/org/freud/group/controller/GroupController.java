@@ -151,38 +151,35 @@ public class GroupController {
      * @param file
      * @return
      */
-    //TODO 暂时
-//    @PostMapping("/uploadGroupAttachment/{groupId}")
-//    public ResponseEntity<Integer> upLoadGroupAttachment(@RequestParam("file") MultipartFile file,
-//                                                         @PathVariable("groupId") Integer groupId) {
-//        if (file == null) {
-//            throw new GroupException("上传文件失败，文件为空 !");
-//        }
-//        int groupAttachmentId = groupAttachmentService.uploadGroupAttachment(groupId, file);
-//        return new ResponseEntity<>(groupAttachmentId, HttpStatus.OK);
-//    }
+    @PostMapping("/uploadGroupAttachment/{groupId}")
+    public ResponseEntity<Integer> upLoadGroupAttachment(@RequestParam("file") MultipartFile file,
+                                                         @PathVariable("groupId") Integer groupId) {
+        if (file == null) {
+            throw new GroupException("上传文件失败，文件为空 !");
+        }
+        int groupAttachmentId = groupAttachmentService.uploadGroupAttachment(groupId, file);
+        return new ResponseEntity<>(groupAttachmentId, HttpStatus.OK);
+    }
 
     /***
      * 展示群文件列表
      * @param groupId
      * @return
      */
-    //TODO 暂时
-//    @GetMapping("/showGroupAttachmentList/{groupId}")
-//    public List<GroupAttachmentVO> showGroupAttachments(@PathVariable("groupId") Integer groupId) {
-//        return groupAttachmentService.showGroupAttachmentList(groupId);
-//    }
+    @GetMapping("/showGroupAttachmentList/{groupId}")
+    public List<GroupAttachmentVO> showGroupAttachments(@PathVariable("groupId") Integer groupId) {
+        return groupAttachmentService.showGroupAttachmentList(groupId);
+    }
 
     /***
      * 删除群文件
      * @param groupId，fileId
      * @return
      */
-    //TODO 暂时
-//    @PostMapping("/deleteGroupAttachment/{groupId}/{fileId}")
-//    public boolean showGroupAttachments(@PathVariable("groupId") Integer groupId, @PathVariable("fileId") String fileId) {
-//        return groupAttachmentService.deleteGroupAttachment(groupId, fileId);
-//    }
+    @PostMapping("/deleteGroupAttachment/{groupId}/{fileId}")
+    public boolean showGroupAttachments(@PathVariable("groupId") Integer groupId, @PathVariable("fileId") String fileId) {
+        return groupAttachmentService.deleteGroupAttachment(groupId, fileId);
+    }
 
     /***
      * 群主设置管理员权限

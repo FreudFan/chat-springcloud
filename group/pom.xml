@@ -25,6 +25,7 @@
         <spring-cloud.version>Hoxton.SR6</spring-cloud.version>
 
         <user-client.version>0.0.1-SNAPSHOT</user-client.version>
+        <file-client.version>0.0.1-SNAPSHOT</file-client.version>
         <group-common.version>0.0.1-SNAPSHOT</group-common.version>
     </properties>
 
@@ -34,6 +35,11 @@
                 <groupId>org.freud</groupId>
                 <artifactId>user-client</artifactId>
                 <version>${user-client.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.freud</groupId>
+                <artifactId>file-client</artifactId>
+                <version>${file-client.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.freud</groupId>

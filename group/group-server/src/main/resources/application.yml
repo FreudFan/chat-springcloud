@@ -41,6 +41,17 @@ spring:
     store-type: redis
     timeout: 300
 
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 2048MB
+
+ribbon:
+  #建立连接超时时间
+  ConnectTimeout: 60000
+  #建立连接之后，读取响应资源超时时间
+  ReadTimeout: 60000
+
 eureka:
   client:
     service-url:

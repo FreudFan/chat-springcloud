@@ -8,7 +8,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
-@EnableFeignClients(basePackages = "org.freud.user.client")
+@EnableFeignClients(basePackages = {"org.freud.user.client", "org.freud.file.client"})
 @EnableEurekaClient
 @EnableJpaAuditing
 @SpringBootApplication

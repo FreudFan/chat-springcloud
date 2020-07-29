@@ -1,13 +1,18 @@
 package org.freud.group.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import org.freud.file.client.FileClient;
+import org.freud.file.common.AttachmentDTO;
 import org.freud.group.common.GroupAttachmentVO;
 import org.freud.group.dao.GroupAttachmentDao;
 import org.freud.group.dao.GroupUserDao;
 import org.freud.group.entity.GroupAttachment;
 import org.freud.group.entity.GroupUser;
 import org.freud.group.enums.GroupRoleEnum;
+import org.freud.group.exception.GroupException;
+import org.freud.group.interceptor.RequestContent;
 import org.freud.group.service.GroupAttachmentService;
+import org.freud.user.common.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,57 +28,65 @@ public class GroupAttachmentServiceImpl implements GroupAttachmentService {
 
     @Autowired
     private GroupAttachmentDao groupAttachmentDao;
-    //TODO 暂时
-//    @Autowired
-//    private AttachmentService attachmentService;
     @Autowired
-    private GroupUserDao groupuserDao;
+    private GroupUserDao groupUserDao;
+    @Autowired
+    private FileClient fileClient;
 
-    //TODO 暂时
-//    @Override
-//    public Integer uploadGroupAttachment(Integer groupId, MultipartFile file) {
-//        GroupAttachment groupAttachment = new GroupAttachment();
-//        try {
-//            String fileId = attachmentService.saveAttachment(file);
-//            groupAttachment.setFileId(fileId);
-//            groupAttachment.setGroupId(groupId);
-//            groupAttachmentDao.getRepository().save(groupAttachment);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return groupAttachment.getId();
-//    }
+    @Override
+    public Integer uploadGroupAttachment(Integer groupId, MultipartFile file) {
+        GroupAttachment groupAttachment = new GroupAttachment();
 
-    //TODO 暂时
-//    @Override
-//    public List<GroupAttachmentVO> showGroupAttachmentList(Integer groupId) {
-//        List<GroupAttachmentVO> groupAttachmentVOS = new ArrayList<>();
-//        List<GroupAttachment> groupAttachments = groupAttachmentDao.getMapper().findGroupAttachmentByGroupId(groupId);
-//        for (GroupAttachment groupAttachment : groupAttachments) {
-//            GroupAttachmentVO groupAttachmentVO = new GroupAttachmentVO();
+        Integer currentId = RequestContent.getCurrentUser().getId();
+        GroupUser groupUser = groupUserDao.getRepository().findByGroupIdAndUserId(groupId, currentId);
+        if (groupUser == null) {
+            throw new GroupException("用户 [id:" + currentId + "] 不在群 [id:" + groupId + "] 内, 无法上传文件");
+        }
+        String fileId = fileClient.upLoadAttachment(file, currentId);
+        groupAttachment.setFileId(fileId);
+        groupAttachment.setGroupId(groupId);
+        groupAttachmentDao.getRepository().save(groupAttachment);
+
+        return groupAttachment.getId();
+    }
+
+    @Override
+    public List<GroupAttachmentVO> showGroupAttachmentList(Integer groupId) {
+        List<GroupAttachmentVO> groupAttachmentVOS = new ArrayList<>();
+        List<GroupAttachment> groupAttachments = groupAttachmentDao.getMapper().findGroupAttachmentByGroupId(groupId);
+        for (GroupAttachment groupAttachment : groupAttachments) {
+            GroupAttachmentVO groupAttachmentVO = new GroupAttachmentVO();
+            AttachmentDTO attachmentDTO = fileClient.getAttachmentInfo(groupAttachment.getFileId());
 //            Attachment attachment = attachmentService.getAttachmentInfo(groupAttachment.getFileId());
-//            groupAttachmentVO.setContentSize(attachment.getContentSize());
-//            groupAttachmentVO.setFileName(attachment.getName());
-//            groupAttachmentVO.setFileId(groupAttachment.getFileId());
-//            Optional<GroupUser> user = groupuserDao.getRepository().findById(attachment.getOwnerId());
+            groupAttachmentVO.setContentSize(attachmentDTO.getContentSize());
+            groupAttachmentVO.setFileName(attachmentDTO.getName());
+            groupAttachmentVO.setFileId(groupAttachment.getFileId());
+
+//            Optional<GroupUser> user = groupuserDao.getRepository().findById(attachmentDTO.getOwnerId());
 //            UserVO userVO = new UserVO();
 //            userVO.setId(user.get().getUserId());
 //            userVO.setNickname(user.get().getNickname());
-//            groupAttachmentVO.setUserVO(userVO);
-//            groupAttachmentVOS.add(groupAttachmentVO);
-//        }
-//        return groupAttachmentVOS;
-//    }
 
-    //TODO 暂时
-//    @Override
-//    public boolean deleteGroupAttachment(Integer groupId, String fileId) {
-//        int currentId = RequestContent.getCurrentUser().getId();
-//        GroupUser groupUser = groupuserDao.getRepository().findByGroupIdAndUserId(groupId, currentId);
-//        if (groupUser.getRoleId().equals(GroupRoleEnum.MEMBER.value))
-//            return false;
-//        groupAttachmentDao.getRepository().deleteByGroupIdAndFileId(groupId, fileId);
+            GroupUser user = groupUserDao.getRepository().findByGroupIdAndUserId(groupId, attachmentDTO.getOwnerId());
+            UserVO userVO = new UserVO();
+            userVO.setId(user.getUserId());
+            userVO.setNickname(user.getNickname());
+
+            groupAttachmentVO.setUserVO(userVO);
+            groupAttachmentVOS.add(groupAttachmentVO);
+        }
+        return groupAttachmentVOS;
+    }
+
+    @Override
+    public boolean deleteGroupAttachment(Integer groupId, String fileId) {
+        int currentId = RequestContent.getCurrentUser().getId();
+        GroupUser groupUser = groupUserDao.getRepository().findByGroupIdAndUserId(groupId, currentId);
+        if (groupUser.getRoleId().equals(GroupRoleEnum.MEMBER.value))
+            return false;
+        groupAttachmentDao.getRepository().deleteByGroupIdAndFileId(groupId, fileId);
 //        attachmentService.deleteAttachment(fileId);
-//        return true;
-//    }
+        fileClient.deleteAttachment(fileId);
+        return true;
+    }
 }
