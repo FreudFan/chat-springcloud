@@ -2,6 +2,7 @@ package org.freud.group.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.freud.file.client.FileClient;
+import org.freud.file.client.mq.FileStreamProducer;
 import org.freud.file.common.AttachmentDTO;
 import org.freud.group.common.GroupAttachmentVO;
 import org.freud.group.dao.GroupAttachmentDao;
@@ -32,6 +33,8 @@ public class GroupAttachmentServiceImpl implements GroupAttachmentService {
     private GroupUserDao groupUserDao;
     @Autowired
     private FileClient fileClient;
+    @Autowired
+    private FileStreamProducer fileStreamProducer;
 
     @Override
     public Integer uploadGroupAttachment(Integer groupId, MultipartFile file) {
@@ -85,8 +88,9 @@ public class GroupAttachmentServiceImpl implements GroupAttachmentService {
         if (groupUser.getRoleId().equals(GroupRoleEnum.MEMBER.value))
             return false;
         groupAttachmentDao.getRepository().deleteByGroupIdAndFileId(groupId, fileId);
-//        attachmentService.deleteAttachment(fileId);
-        fileClient.deleteAttachment(fileId);
+        // 可以使用 rpc 调用文件服务删除文件，也可以通过消息队列通知文件服务删除文件
+//        fileClient.deleteAttachment(fileId);
+        fileStreamProducer.deleteAttachment(fileId);
         return true;
     }
 }
