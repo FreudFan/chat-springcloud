@@ -1,12 +1,15 @@
 package org.freud.file;
 
+import org.freud.file.mq.FileStreamSink;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
+@EnableBinding(FileStreamSink.class)
 @EnableEurekaClient
 @EnableJpaAuditing
 @SpringBootApplication

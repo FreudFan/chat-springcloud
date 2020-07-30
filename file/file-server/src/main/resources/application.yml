@@ -46,6 +46,17 @@ spring:
       max-file-size: 500MB
       max-request-size: 2048MB
 
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: localhost:9092
+      bindings:
+        fileDeleteInput:
+          destination: fileDelete
+          contentType: application/json
+          group: ${spring.application.name}
+
 eureka:
   client:
     service-url:
