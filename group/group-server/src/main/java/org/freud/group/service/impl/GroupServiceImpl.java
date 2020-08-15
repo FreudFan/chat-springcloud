@@ -15,6 +15,10 @@ import org.freud.group.exception.FormException;
 import org.freud.group.exception.GroupException;
 import org.freud.group.interceptor.RequestContent;
 import org.freud.group.service.GroupService;
+import org.freud.message.client.MessageStreamProducer;
+import org.freud.message.common.ChatMsg;
+import org.freud.message.common.DataContent;
+import org.freud.message.common.enums.MsgActionEnum;
 import org.freud.user.client.UserClient;
 import org.freud.user.common.UserVO;
 import org.springframework.beans.BeanUtils;
@@ -37,21 +41,14 @@ public class GroupServiceImpl implements GroupService {
 
     @Autowired
     private GroupDao groupDao;
-    //TODO 暂时
-//    @Autowired
-//    private UserDao userDao;
     @Autowired
     private GroupUserDao groupUserDao;
     @Autowired
     private GroupRequestDao groupRequestDao;
-    //TODO 暂时
-//    @Autowired
-//    private ChannelUtils channelUtils;
-    //TODO 暂时
-//    @Autowired
-//    private FriendDao friendDao;
     @Autowired
     private UserClient userClient;
+    @Autowired
+    private MessageStreamProducer messageStreamProducer;
 
     @Override
     public Group createGroup(Group group) {
@@ -87,10 +84,12 @@ public class GroupServiceImpl implements GroupService {
         List<UserVO> userVOS = groupDao.getMapper().queryGroupUsers(groupId);
         List<Integer> userId = userVOS.stream().map(UserVO::getId).collect(Collectors.toList());
         // TODO:向群用户发送群解散通知
-        //TODO 暂时
-//        DataContent dataContent = new DataContent();
-//        dataContent.setAction(MsgActionEnum.DISBAND_GROUP.type);
-//        dataContent.setExtend(String.valueOf(groupId));
+        DataContent dataContent = new DataContent();
+        ChatMsg chatMsg = new ChatMsg();
+        chatMsg.setSenderId(0);
+        dataContent.setAction(MsgActionEnum.DISBAND_GROUP.type);
+        dataContent.setExtend(String.valueOf(groupId));
+        messageStreamProducer.sendMessageToGroupOutput(dataContent);
 //        channelUtils.sendMessageToGroupUser(0, groupId, dataContent);
     }
 

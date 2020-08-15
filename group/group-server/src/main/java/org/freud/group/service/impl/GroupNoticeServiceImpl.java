@@ -6,6 +6,11 @@ import org.freud.group.dao.NoticeDao;
 import org.freud.group.entity.Notice;
 import org.freud.group.interceptor.RequestContent;
 import org.freud.group.service.GroupNoticeService;
+import org.freud.group.utils.JacksonUtil;
+import org.freud.message.client.MessageStreamProducer;
+import org.freud.message.common.ChatMsg;
+import org.freud.message.common.DataContent;
+import org.freud.message.common.enums.MsgActionEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,9 +25,8 @@ public class GroupNoticeServiceImpl implements GroupNoticeService {
     private GroupUserDao groupuserDao;
     @Autowired
     private NoticeDao noticeDao;
-    //TODO 暂时
-//    @Autowired
-//    private ChannelUtils channelUtils;
+    @Autowired
+    private MessageStreamProducer messageStreamProducer;
 
     @Override
     public boolean addNotice(Notice notice) {
@@ -36,8 +40,7 @@ public class GroupNoticeServiceImpl implements GroupNoticeService {
         groupNotice.setGroupId(notice.getGroupId());
         groupNotice.setOwnerId(currentId);
         notice = noticeDao.getRepository().save(groupNotice);
-        //TODO 暂时
-//        this.sendNotice(notice.getGroupId(), notice);
+        this.sendNotice(notice.getGroupId(), notice);
         return true;
     }
 
@@ -62,8 +65,7 @@ public class GroupNoticeServiceImpl implements GroupNoticeService {
         notice.setCreateTime(getNotice.getCreateTime());
         notice.setGroupId(getNotice.getGroupId());
         notice = noticeDao.getRepository().save(notice);
-        //TODO 暂时
-//        this.sendNotice(notice.getGroupId(), notice);
+        this.sendNotice(notice.getGroupId(), notice);
         return true;
     }
 
@@ -82,14 +84,16 @@ public class GroupNoticeServiceImpl implements GroupNoticeService {
      * @param groupId
      * @param notice
      */
-    //TODO 暂时
-//    private void sendNotice(Integer groupId, Notice notice) {
-//        DataContent dataContent = new DataContent();
-//        dataContent.setAction(MsgActionEnum.GROUP_NOTICE.type);
-//        ChatMsg chatMsg = new ChatMsg();
-//        chatMsg.setGroupId(groupId);
-//        dataContent.setExtend(JacksonUtil.toJSON(notice));
-//        int currentId = RequestContent.getCurrentUser().getId();
+    private void sendNotice(Integer groupId, Notice notice) {
+        DataContent dataContent = new DataContent();
+        dataContent.setAction(MsgActionEnum.GROUP_NOTICE.type);
+        ChatMsg chatMsg = new ChatMsg();
+        chatMsg.setGroupId(groupId);
+        int currentId = RequestContent.getCurrentUser().getId();
+        chatMsg.setSenderId(currentId);
+        dataContent.setChatMsg(chatMsg);
+        dataContent.setExtend(JacksonUtil.toJSON(notice));
+        messageStreamProducer.sendMessageToGroupOutput(dataContent);
 //        channelUtils.sendMessageToGroupUser(currentId, groupId, dataContent);
-//    }
+    }
 }

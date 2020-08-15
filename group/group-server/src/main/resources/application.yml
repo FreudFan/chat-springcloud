@@ -56,6 +56,12 @@ spring:
           destination: fileDelete
           contentType: application/json
           group: ${spring.application.name}
+        messageToUserOutput:
+          destination: messageToUser
+          group: ${spring.application.name}
+        messageToGroupOutput:
+          destination: messageToGroup
+          group: ${spring.application.name}
 
 ribbon:
   #建立连接超时时间

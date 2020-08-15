@@ -26,6 +26,7 @@
 
         <user-client.version>0.0.1-SNAPSHOT</user-client.version>
         <file-client.version>0.0.1-SNAPSHOT</file-client.version>
+        <message-common.version>0.0.1-SNAPSHOT</message-common.version>
         <group-common.version>0.0.1-SNAPSHOT</group-common.version>
     </properties>
 
@@ -45,6 +46,11 @@
                 <groupId>org.freud</groupId>
                 <artifactId>group-common</artifactId>
                 <version>${group-common.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.freud</groupId>
+                <artifactId>message-client</artifactId>
+                <version>${message-common.version}</version>
             </dependency>
 
             <dependency>
