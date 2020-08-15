@@ -41,6 +41,19 @@ spring:
     store-type: redis
     timeout: 300
 
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: localhost:9092
+      bindings:
+        messageToUserOutput:
+          destination: messageToUser
+          group: ${spring.application.name}
+        messageToGroupOutput:
+          destination: messageToGroup
+          group: ${spring.application.name}
+
 eureka:
   client:
     service-url:
