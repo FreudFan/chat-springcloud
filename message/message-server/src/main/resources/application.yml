@@ -41,19 +41,25 @@ spring:
     store-type: redis
     timeout: 300
 
-  cloud:
-    stream:
-      kafka:
-        binder:
-          brokers: localhost:9092
-      bindings:
-        greetings-in:
-          destination: greetings
-          contentType: application/json
-          group: ${spring.application.name}
-        greetings-out:
-          destination: greetings
-          contentType: application/json
+#  cloud:
+#    stream:
+#      kafka:
+#        binder:
+#          brokers: localhost:9092
+#      bindings:
+#        greetings-in:
+#          destination: greetings
+#          contentType: application/json
+#          group: ${spring.application.name}
+#        greetings-out:
+#          destination: greetings
+#          contentType: application/json
+
+ribbon:
+  #建立连接超时时间
+  ConnectTimeout: 60000
+  #建立连接之后，读取响应资源超时时间
+  ReadTimeout: 60000
 
 eureka:
   client:
@@ -62,7 +68,7 @@ eureka:
 
 mybatis:
   mapper-locations: classpath*:/mapper/*.xml
-#  type-aliases-package: org.freud.group.entity, org.freud.group.common, org.freud.user.common
+  type-aliases-package: org.freud.message.entity, org.freud.message.common
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true
@@ -71,3 +77,9 @@ pagehelper:
   reasonable: true
   support-methods-arguments: true
   auto-dialect: true
+
+netty:
+  # netty 端口
+  port: 8089
+  # websocket 路径
+  websocketPath: ws

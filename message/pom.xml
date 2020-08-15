@@ -4,7 +4,6 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
     <modules>
-        <module>service</module>
         <module>message-server</module>
         <module>message-client</module>
         <module>message-common</module>
@@ -25,6 +24,8 @@
         <java.version>11</java.version>
         <spring-cloud.version>Hoxton.SR6</spring-cloud.version>
 
+        <user-client.version>0.0.1-SNAPSHOT</user-client.version>
+        <group-client.version>0.0.1-SNAPSHOT</group-client.version>
         <message-common.version>0.0.1-SNAPSHOT</message-common.version>
     </properties>
 
@@ -34,6 +35,16 @@
                 <groupId>org.freud</groupId>
                 <artifactId>message-common</artifactId>
                 <version>${message-common.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.freud</groupId>
+                <artifactId>user-client</artifactId>
+                <version>${user-client.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.freud</groupId>
+                <artifactId>group-client</artifactId>
+                <version>${group-client.version}</version>
             </dependency>
 
             <dependency>
