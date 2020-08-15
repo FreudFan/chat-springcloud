@@ -22,8 +22,29 @@ public class ServiceController {
      * @return
      */
     @GetMapping("/queryUserGroups/{userId}")
-    List<GroupDTO> queryUserGroups(@PathVariable("userId") Integer userId) {
+    public List<GroupDTO> queryUserGroups(@PathVariable("userId") Integer userId) {
         return groupService.queryUserGroups(userId);
+    }
+
+    /***
+     * 查找群用户id
+     * @param groupId
+     * @return
+     */
+    @GetMapping("/getGroupUsersId/{groupId}")
+    public List<Integer> getGroupUsersId(@PathVariable("groupId") Integer groupId) {
+        return groupService.getGroupUsersId(groupId);
+    }
+
+    /***
+     * 获取用户在群内昵称
+     * @param groupId
+     * @param userId
+     * @return
+     */
+    @GetMapping("/getUserGroupNickname/{groupId}/{userId}")
+    public String getUserGroupNickname(@PathVariable("groupId") Integer groupId, @PathVariable("userId") Integer userId) {
+        return groupService.getUserGroupNickname(groupId, userId);
     }
 
 }

@@ -18,4 +18,21 @@ public interface GroupClient {
     @GetMapping("/service/queryUserGroups/{userId}")
     List<GroupDTO> queryUserGroups(@PathVariable("userId") Integer userId);
 
+    /***
+     * 查找群用户id
+     * @param groupId
+     * @return
+     */
+    @GetMapping("/service/getGroupUsersId/{groupId}")
+    List<Integer> getGroupUsersId(@PathVariable("groupId") Integer groupId);
+
+    /***
+     * 获取用户在群内昵称
+     * @param groupId
+     * @param userId
+     * @return
+     */
+    @GetMapping("/service/getUserGroupNickname/{groupId}/{userId}")
+    String getUserGroupNickname(@PathVariable("groupId") Integer groupId, @PathVariable("userId") Integer userId);
+
 }
