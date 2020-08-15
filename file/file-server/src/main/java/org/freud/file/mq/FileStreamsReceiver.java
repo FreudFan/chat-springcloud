@@ -15,7 +15,7 @@ public class FileStreamsReceiver {
     private AttachmentService attachmentService;
 
     @StreamListener(FileStreamSink.INPUT)
-    public void handleGreetings(@Payload String fileId) {
+    public void handleFileDelete(@Payload String fileId) {
         log.info("从topic【{}】接收到消息: {}    开始删除文件", "fileDelete", fileId);
         attachmentService.deleteAttachment(fileId);
     }
