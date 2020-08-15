@@ -1,10 +1,12 @@
 package org.freud.message.common;
 
 import lombok.Data;
+import lombok.ToString;
 
 import java.io.Serializable;
 
 @Data
+@ToString
 public class DataContent implements Serializable {
     /** 动作类型 */
     private Integer action;

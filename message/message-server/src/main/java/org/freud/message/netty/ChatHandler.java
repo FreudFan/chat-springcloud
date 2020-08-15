@@ -13,12 +13,11 @@ import org.freud.group.client.GroupClient;
 import org.freud.message.boot.ApplicationContextUtil;
 import org.freud.message.common.ChatMsg;
 import org.freud.message.common.DataContent;
-import org.freud.message.enums.MsgActionEnum;
+import org.freud.message.common.enums.MsgActionEnum;
 import org.freud.message.exception.SocketException;
 import org.freud.message.service.MessageService;
 import org.freud.message.utils.JacksonUtil;
 import org.freud.message.utils.RedisUtil;
-import org.freud.user.client.UserClient;
 
 import java.util.Arrays;
 import java.util.List;
@@ -77,7 +76,7 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
                 // 保存消息到数据库，并且标记为 未签收
                 Integer msgId = chatMessageService.saveMessage(chatMsg);
                 // 发送消息
-                channelUtils.sendMessageToUser(chatMsg.getSenderId(), chatMsg.getReceiverId(), dataContent);
+                channelUtils.sendMessageToUser(dataContent);
                 break;
             case SIGNED:
                 // 2.3 签收消息类型，针对具体的消息进行签收，修改数据库中对应消息的签收状态[已签收]
@@ -98,7 +97,7 @@ public class ChatHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
                 String groupNickname = groupClient.getUserGroupNickname(groupMsg.getGroupId(), senderId);
                 groupMsg.setNickname(groupNickname);
                 dataContent.setChatMsg(groupMsg);
-                channelUtils.sendMessageToGroupUser(senderId, groupMsg.getGroupId(), dataContent);
+                channelUtils.sendMessageToGroupUser(dataContent);
                 break;
             case KEEPALIVE:
                 // 2.4 心跳类型的消息

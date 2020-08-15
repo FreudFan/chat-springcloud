@@ -1,10 +1,12 @@
 package org.freud.message.common;
 
 import lombok.Data;
+import lombok.ToString;
 
 import java.io.Serializable;
 
 @Data
+@ToString
 public class ChatMsg implements Serializable {
     /** 发送者：用户id */
     private Integer senderId;

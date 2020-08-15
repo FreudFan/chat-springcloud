@@ -1,4 +1,4 @@
-package org.freud.message.enums;
+package org.freud.message.common.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

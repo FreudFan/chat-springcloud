@@ -41,19 +41,18 @@ spring:
     store-type: redis
     timeout: 300
 
-#  cloud:
-#    stream:
-#      kafka:
-#        binder:
-#          brokers: localhost:9092
-#      bindings:
-#        greetings-in:
-#          destination: greetings
-#          contentType: application/json
-#          group: ${spring.application.name}
-#        greetings-out:
-#          destination: greetings
-#          contentType: application/json
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: localhost:9092
+      bindings:
+        messageToUserInput:
+          destination: messageToUser
+          group: ${spring.application.name}
+        messageToGroupInput:
+          destination: messageToGroup
+          group: ${spring.application.name}
 
 ribbon:
   #建立连接超时时间
