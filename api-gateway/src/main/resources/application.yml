@@ -1,3 +1,32 @@
+zuul:
+  sensitive-headers:
+  routes:
+    auth:
+      path: /auth/**
+      serviceId: user
+      # 默认为 true，会去掉 /auth 前缀进行转发，此处保留前缀转发
+      strip-prefix: false
+    user:
+      path: /user/**
+      serviceId: user
+      strip-prefix: false
+    group:
+      path: /group/**
+      serviceId: group
+      strip-prefix: false
+    file:
+      path: /file/**
+      serviceId: file
+      strip-prefix: false
+    message:
+      path: /message/**
+      serviceId: message
+      strip-prefix: false
+
+ribbon:
+  ReadTimeout: 60000
+  ConnectTimeout: 60000
+
 spring:
   application:
     name: api-gateway

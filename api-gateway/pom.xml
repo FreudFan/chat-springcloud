@@ -17,9 +17,16 @@
     <properties>
         <java.version>11</java.version>
         <spring-cloud.version>Hoxton.SR6</spring-cloud.version>
+        <user-client.version>0.0.1-SNAPSHOT</user-client.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.freud</groupId>
+            <artifactId>user-client</artifactId>
+            <version>${user-client.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
