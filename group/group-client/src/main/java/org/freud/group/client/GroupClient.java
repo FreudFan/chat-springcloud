@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@FeignClient(name = "group")
+@FeignClient(name = "group", fallback = GroupClientFallback.class)
 public interface GroupClient {
 
     /***

@@ -69,6 +69,10 @@ ribbon:
   #建立连接之后，读取响应资源超时时间
   ReadTimeout: 60000
 
+feign:
+  hystrix:
+    enabled: true
+
 eureka:
   client:
     service-url:
@@ -88,3 +92,4 @@ pagehelper:
 
 server:
   port: 9010
+

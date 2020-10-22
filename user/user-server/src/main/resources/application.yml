@@ -54,6 +54,16 @@ spring:
           destination: messageToGroup
           group: ${spring.application.name}
 
+feign:
+  hystrix:
+    enabled: true
+
+ribbon:
+  #建立连接超时时间
+  ConnectTimeout: 60000
+  #建立连接之后，读取响应资源超时时间
+  ReadTimeout: 60000
+
 eureka:
   client:
     service-url:
