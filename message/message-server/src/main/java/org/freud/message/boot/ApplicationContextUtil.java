@@ -16,7 +16,7 @@ public class ApplicationContextUtil implements ApplicationContextAware {
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         if (ApplicationContextUtil.applicationContext == null) {
             ApplicationContextUtil.applicationContext = applicationContext;
-            log.info("applicationContext正在初始化,application:" + applicationContext);
+            log.info("ApplicationContext正在初始化, application:" + applicationContext);
         }
     }
 
