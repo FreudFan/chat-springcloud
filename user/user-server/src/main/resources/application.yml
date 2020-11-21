@@ -14,7 +14,7 @@ apollo:
   bootstrap:
     enabled: true
     # namespace, 中间以逗号间隔
-    namespaces: application, my_project.chat-datasource, my_project.chat-redis, my_project.chat-commom-config, my_project.chat-mybatis
+    namespaces: application, my_project.chat-datasource, my_project.chat-redis, my_project.chat-commom-config, my_project.chat-mybatis, my_project.chat-kafka
   #自定义缓存路径
   cacheDir: apollo-cacheDir/account-service
   #集群
