@@ -1,15 +1,11 @@
-spring:
-  application:
-    name: user
+server:
+  port: 9020
 
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
     fetch-registry: true
-
-server:
-  port: 9020
 
 # apollo 配置中心
 app:
@@ -26,6 +22,9 @@ apollo:
   # Apollo Meta Server
   meta: http://localhost:8080
 
+spring:
+  application:
+    name: user
 
 #  datasource:
 #    driver-class-name: com.mysql.cj.jdbc.Driver
