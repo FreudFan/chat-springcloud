@@ -1,5 +1,6 @@
 package org.freud.file;
 
+import com.ctrip.framework.apollo.spring.annotation.EnableApolloConfig;
 import org.freud.file.mq.FileStreamSink;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -9,6 +10,7 @@ import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
+@EnableApolloConfig
 @EnableBinding(FileStreamSink.class)
 @EnableEurekaClient
 @EnableJpaAuditing
