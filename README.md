@@ -7,10 +7,11 @@
 
 ### 项目源码
 
-| github           |                                                              |
-| ---------------- | ------------------------------------------------------------ |
-| Spring Cloud版本 | https://github.com/FreudFan/chat-springcloud |
-| Spring Boot版本  | https://github.com/FreudFan/chat |
+|                   | github                                                       |
+| ----------------- | ------------------------------------------------------------ |
+| Spring Cloud 版本 | https://github.com/FreudFan/chat-springcloud                 |
+| Spring Boot 版本  | https://github.com/FreudFan/chat                             |
+| vue 前端          | https://github.com/FreudFan/chat/tree/master/chat_frontend_vue |
 
 ### 模块介绍
 
